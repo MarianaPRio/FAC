@@ -1,0 +1,35 @@
+.data 
+	enter: .asciiz "\n"
+.text 
+main:	
+	li $v0, 5	
+	syscall 
+	move $t1, $v0 
+	sub $t2, $t1, 1	
+	li $v0, 5	
+	syscall 
+	move $t3, $v0 
+	div $t3,$t2
+	mfhi $t4 
+	mflo $t5 
+	bne $t4, $zero, adiciona
+	move $a0, $t5 
+	li $v0, 1 
+	syscall
+	li $v0, 4
+	la $a0, enter
+	syscall 
+	j Exit
+adiciona:
+	add $t6, $t5, 1 
+	move $a0, $t6 
+	li $v0, 1 
+	syscall
+	li $v0, 4
+	la $a0, barra
+	syscall 
+	j Exit
+Exit: 
+	li $v0, 10
+	syscall
+	

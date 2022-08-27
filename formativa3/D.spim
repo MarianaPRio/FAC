@@ -1,0 +1,65 @@
+.data
+	asterisco: .asciiz "*"  #uma variavel com um asterisco
+	espaco: .asciiz " " #uma variavel com um espaço em branco
+	enter: .asciiz "\n"
+.text
+main:
+	li $v0, 5 
+	syscall
+	
+	move $t0, $v0  
+	
+	move $t1, $zero 
+	addi $t1, $t1, 1  
+	
+	
+	
+	primeirolaco:
+		bgt $t1, $t0, primeirasaida 
+		
+		move $t2, $zero 
+		addi $t2, $t2, 1  
+		sub $t4, $t0, $t1 
+		segundolaco: 
+			bgt $t2, $t4, segundasaida 
+			
+			li $v0, 4  
+			la $a0, espaco 
+			syscall
+			
+			addi $t2, $t2, 1 
+			j segundolaco 
+		segundasaida:
+		
+		move $t3, $zero 
+		addi $t3, $t3, 1 
+		
+		move $t5, $zero 
+		addi $t5, $t5, 2 
+		
+		mul $s0, $t1, $t5 
+		
+		sub $t6, $s0, 1 
+		
+		terceirolaco:
+			bgt $t3, $t6, terceirasaida #quando $t3 for maior que $t6 ele vai para terceirasaida
+			
+			li $v0, 4 #para imprimir uma string
+			la $a0, asterisco #alocando a variavel asterisco em $a0 para ser impressa
+			syscall
+			
+			addi $t3, $t3, 1 #adiciona em $t3 uma unidade, para rodar o laco
+			j terceirolaco #retorna para o inicio de terceiro laco
+		terceirasaida:
+		
+		li $v0, 4 #imprime uma string
+		la $a0, enter #alocando a variavel quebra em $a0 para ser impressa
+		syscall
+		
+		addi $t1, $t1, 1 #adiciona 1 no valor de $t1
+		j primeirolaco #volta para o inicio do while
+		
+	primeirasaida:
+		
+	li $v0, 10 #encerra a main
+	syscall
